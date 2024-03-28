@@ -19,7 +19,7 @@ app.get("/", (req, res) => {
   });
 });
 
-app.use("/api/v1", router);
+app.use("/api", router);
 
 // !GLOBAL ERROR HANDLER
 app.use(globalErrorHandler);
