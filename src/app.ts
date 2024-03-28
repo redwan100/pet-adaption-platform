@@ -4,6 +4,7 @@ import express, { Application } from "express";
 import morgan from "morgan";
 import globalErrorHandler from "./app/middleware/globalErrorHandler";
 import notFound from "./app/middleware/notFound";
+import router from "./app/routes";
 
 const app: Application = express();
 
@@ -17,6 +18,8 @@ app.get("/", (req, res) => {
     message: "welcome pet adoption platform",
   });
 });
+
+app.use("/api/v1", router);
 
 // !GLOBAL ERROR HANDLER
 app.use(globalErrorHandler);
