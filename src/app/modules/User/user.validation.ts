@@ -20,6 +20,6 @@ const createUserValidationSchema = z.object({
     .trim(),
 });
 
-export const Validations = {
+export const UserValidations = {
   createUserValidationSchema,
 };

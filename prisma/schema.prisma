@@ -31,7 +31,7 @@ model Pet {
   species              String
   breed                String
   age                  Int
-  size                 Int
+  size                 String
   location             String
   description          String
   temperament          String

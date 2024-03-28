@@ -1,13 +1,13 @@
 import { Router } from "express";
 import validateRequest from "../../shared/validateRequest";
 import { UserControllers } from "./user.controller";
-import { Validations } from "./user.validation";
+import { UserValidations } from "./user.validation";
 
 const router = Router();
 
-router.get(
+router.post(
   "/register",
-  validateRequest(Validations.createUserValidationSchema),
+  validateRequest(UserValidations.createUserValidationSchema),
   UserControllers.createUser
 );
 
