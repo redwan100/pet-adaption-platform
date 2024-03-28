@@ -50,7 +50,7 @@ model Adoption {
   petId                  String
   user                   User     @relation(fields: [userId], references: [id])
   pet                    Pet      @relation(fields: [petId], references: [id])
-  status                 Status
+  status                 Status   @default(PENDING)
   petOwnershipExperience String
   createdAt              DateTime @default(now())
   updatedAt              DateTime @updatedAt
