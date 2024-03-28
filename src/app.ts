@@ -1,7 +1,9 @@
-import express, { Application } from "express";
-import cors from "cors";
-import morgan from "morgan";
 import cookieParser from "cookie-parser";
+import cors from "cors";
+import express, { Application } from "express";
+import morgan from "morgan";
+import globalErrorHandler from "./app/middleware/globalErrorHandler";
+import notFound from "./app/middleware/notFound";
 
 const app: Application = express();
 
@@ -15,5 +17,11 @@ app.get("/", (req, res) => {
     message: "welcome pet adoption platform",
   });
 });
+
+// !GLOBAL ERROR HANDLER
+app.use(globalErrorHandler);
+
+// !NOT FOUND ROUTE
+app.use("*", notFound);
 
 export default app;
