@@ -6,10 +6,7 @@ const createAdoptionIntoDB = async (payload: Adoption) => {
   return result;
 };
 
-const adoptionRequestIntoDB = async (
-  id: string,
-  payload: Partial<Adoption>
-) => {
+const adoptionRequestIntoDB = async (id: string, payload: any) => {
   await prisma.adoption.findUniqueOrThrow({ where: { id } });
 
   const result = await prisma.adoption.update({
@@ -19,7 +16,13 @@ const adoptionRequestIntoDB = async (
   return result;
 };
 
+const getAdoptionFromDB = async () => {
+  const result = await prisma.adoption.findMany();
+  return result;
+};
+
 export const AdoptionServices = {
   createAdoptionIntoDB,
   adoptionRequestIntoDB,
+  getAdoptionFromDB,
 };

@@ -7,5 +7,6 @@ router.patch(
   "/adoption-request/:requestId",
   AdoptionControllers.adoptionRequest
 );
+router.get("/adoption-requests", AdoptionControllers.getAdoption);
 
 export const AdoptionRoutes = router;

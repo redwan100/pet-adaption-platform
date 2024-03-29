@@ -30,7 +30,19 @@ const adoptionRequest = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getAdoption = catchAsync(async (req: Request, res: Response) => {
+  const result = await AdoptionServices.getAdoptionFromDB();
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Adoption requests retrieved successfully",
+    data: result,
+  });
+});
+
 export const AdoptionControllers = {
   createAdoption,
   adoptionRequest,
+  getAdoption,
 };
