@@ -1,4 +1,4 @@
-import { Prisma } from "@prisma/client";
+import { Pet, Prisma } from "@prisma/client";
 import calculatePaginate from "../../helpers/paginationHelper";
 import prisma from "../../shared/prisma";
 import petSearchableFields from "./pet.constant";
@@ -63,7 +63,20 @@ const getAllPetFromDB = async (query: any, options: any) => {
   };
 };
 
+const updatePetIntDB = async (id: string, payload: Partial<Pet>) => {
+  await prisma.pet.findUniqueOrThrow({
+    where: { id },
+  });
+  const result = await prisma.pet.update({
+    where: { id },
+    data: payload,
+  });
+
+  return result;
+};
+
 export const PetServices = {
   createPetIntoDB,
   getAllPetFromDB,
+  updatePetIntDB,
 };

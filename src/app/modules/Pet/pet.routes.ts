@@ -12,5 +12,6 @@ router.post(
 );
 
 router.get("/pets", PetControllers.getAllPet);
+router.patch("/pets/:petId", PetControllers.updatePet);
 
 export const PetRoutes = router;
