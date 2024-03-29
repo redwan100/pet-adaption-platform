@@ -15,6 +15,22 @@ const createAdoption = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const adoptionRequest = catchAsync(async (req: Request, res: Response) => {
+  const { requestId } = req.params;
+  const result = await AdoptionServices.adoptionRequestIntoDB(
+    requestId,
+    req.body
+  );
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Adoption request updated successfully",
+    data: result,
+  });
+});
+
 export const AdoptionControllers = {
   createAdoption,
+  adoptionRequest,
 };
