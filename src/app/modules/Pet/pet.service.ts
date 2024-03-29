@@ -1,4 +1,5 @@
 import { Prisma } from "@prisma/client";
+import calculatePaginate from "../../helpers/paginationHelper";
 import prisma from "../../shared/prisma";
 import petSearchableFields from "./pet.constant";
 
@@ -7,8 +8,9 @@ const createPetIntoDB = async (payload: any) => {
   return result;
 };
 
-const getAllPetFromDB = async (query: any) => {
-  const { searchTerm, page, limit, sortBy, sortOrder, ...rest } = query;
+const getAllPetFromDB = async (query: any, options: any) => {
+  const { searchTerm, ...rest } = query;
+  const { page, limit, skip, sortBy, sortOrder } = calculatePaginate(options);
 
   if (rest.age) {
     rest.age = Number(rest?.age);
@@ -41,9 +43,24 @@ const getAllPetFromDB = async (query: any) => {
 
   const result = await prisma.pet.findMany({
     where: whereCondition,
+    take: limit,
+    skip: skip,
+    orderBy:
+      sortBy && sortOrder ? { [sortBy]: sortOrder } : { createdAt: "desc" },
   });
 
-  return result;
+  const total = await prisma.pet.count({
+    where: whereCondition,
+  });
+
+  return {
+    meta: {
+      total,
+      page,
+      limit,
+    },
+    data: result,
+  };
 };
 
 export const PetServices = {
