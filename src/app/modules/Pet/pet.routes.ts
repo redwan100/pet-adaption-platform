@@ -8,11 +8,12 @@ const router = Router();
 
 router.post(
   "/pets",
+  auth,
   validateRequest(PetValidation.createPetValidationSchema),
   PetControllers.createPet
 );
 
-router.get("/pets", auth, PetControllers.getAllPet);
+router.get("/pets", PetControllers.getAllPet);
 
 router.patch("/pets/:petId", auth, PetControllers.updatePet);
 

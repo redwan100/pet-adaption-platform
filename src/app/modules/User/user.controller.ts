@@ -47,8 +47,32 @@ const refreshToken = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getUserProfile = catchAsync(async (req: Request, res: Response) => {
+  const result = await UserServices.getUserProfileFromDB(req.decoded);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "User profile retrieved successfully",
+    data: result,
+  });
+});
+
+const updateUser = catchAsync(async (req: Request, res: Response) => {
+  const result = await UserServices.updateUserIntoDB(req.decoded, req.body);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "User profile updated successfully",
+    data: result,
+  });
+});
+
 export const UserControllers = {
   createUser,
   userLogin,
   refreshToken,
+  getUserProfile,
+  updateUser,
 };

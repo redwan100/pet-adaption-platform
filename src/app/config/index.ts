@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import path from "path";
 import { cwd } from "process";
-dotenv.config({ path: path.join(cwd(), "env") });
+dotenv.config({ path: path.join(cwd(), ".env") });
 
 export default {
   salt_round: process.env.SALT_ROUND,

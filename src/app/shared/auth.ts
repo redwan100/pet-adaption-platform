@@ -16,11 +16,13 @@ const auth = async (req: Request, res: Response, next: NextFunction) => {
       token,
       config.jwt.jwt_secret as Secret
     );
-    await prisma.user.findUniqueOrThrow({
+    const user = await prisma.user.findUniqueOrThrow({
       where: {
         email: decodedUser?.email,
       },
     });
+
+    req.decoded = user;
 
     next();
   } catch (error) {

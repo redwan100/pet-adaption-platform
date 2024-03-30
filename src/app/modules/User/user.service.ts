@@ -1,6 +1,6 @@
 import { User } from "@prisma/client";
 import bcrypt from "bcrypt";
-import jwt, { JwtPayload, Secret } from "jsonwebtoken";
+import { Secret } from "jsonwebtoken";
 import config from "../../config";
 import { jwtHelper } from "../../helper/jwtHelper";
 import prisma from "../../shared/prisma";
@@ -97,8 +97,47 @@ const refreshToken = async (token: string) => {
   return { accessToken };
 };
 
+const getUserProfileFromDB = async (payload: User) => {
+  const result = await prisma.user.findUniqueOrThrow({
+    where: {
+      email: payload?.email,
+    },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      createdAt: true,
+      updatedAt: true,
+    },
+  });
+
+  return result;
+};
+
+const updateUserIntoDB = async (
+  decoded: User,
+  data: { name: string; email: string }
+) => {
+  const result = await prisma.user.update({
+    where: {
+      email: decoded?.email,
+    },
+    data: data,
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      createdAt: true,
+      updatedAt: true,
+    },
+  });
+
+  return result;
+};
 export const UserServices = {
   createUserIntoDB,
   userLoginIntoDB,
   refreshToken,
+  getUserProfileFromDB,
+  updateUserIntoDB,
 };
