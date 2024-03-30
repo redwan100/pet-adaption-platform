@@ -6,7 +6,10 @@ import { jwtHelper } from "../../helper/jwtHelper";
 import prisma from "../../shared/prisma";
 
 const createUserIntoDB = async (payload: User) => {
-  const hashedPassword = await bcrypt.hash(payload.password, 12);
+  const hashedPassword = await bcrypt.hash(
+    payload.password,
+    Number(config.salt_round)
+  );
   payload.password = hashedPassword;
   const userData = await prisma.user.create({
     data: payload,
