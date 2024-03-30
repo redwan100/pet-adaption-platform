@@ -14,6 +14,41 @@ const createUser = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const userLogin = catchAsync(async (req: Request, res: Response) => {
+  const result = await UserServices.userLoginIntoDB(req.body);
+
+  const { refreshToken } = result;
+
+  res.cookie("refresh_token", refreshToken, {
+    secure: false,
+    httpOnly: true,
+  });
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "User logged in successfully",
+    data: {
+      accessToken: result.accessToken,
+    },
+  });
+});
+
+const refreshToken = catchAsync(async (req: Request, res: Response) => {
+  const { refresh_token } = req.cookies;
+
+  const result = await UserServices.refreshToken(refresh_token);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "User logged in successfully",
+    data: result,
+  });
+});
+
 export const UserControllers = {
   createUser,
+  userLogin,
+  refreshToken,
 };
